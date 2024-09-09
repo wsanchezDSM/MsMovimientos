@@ -21,10 +21,10 @@ public class ReporteService {
 	@Autowired
 	private Utileria util;
 	
-	public HashMap<String, Object> obtenerReportexFechas(String fecha, String cliente){
+	public HashMap<String, Object> obtenerReportexFechas(String fechaInicio,String fechaFin, String cliente){
 		HashMap<String, Object> salida=new HashMap<>();
 		try {
-			List<ReporteMovimientosClienteDTO> lsSalida=tblMovimientosRepository.findByNombreUsuarioAndFechas(cliente,fecha.split("|")[0], fecha.split("|")[1])
+			List<ReporteMovimientosClienteDTO> lsSalida=tblMovimientosRepository.findByNombreUsuarioAndFechas(cliente,fechaInicio,fechaFin)
 					.stream().map(y->{
 						ReporteMovimientosClienteDTO dataR=new ReporteMovimientosClienteDTO();
 						dataR.setCliente(y.getTblCuentas().getNombreUsuario());

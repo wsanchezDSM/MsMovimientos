@@ -18,7 +18,7 @@ public class ReportesController {
 	private ReporteService reporteService;
 	
 	@GetMapping
-	public HashMap<String, Object> obtenerReportexFechas(@RequestParam String fecha, @RequestParam String cliente){
-		return reporteService.obtenerReportexFechas(fecha,cliente);
+	public HashMap<String, Object> obtenerReportexFechas(@RequestParam String fechaInicio, @RequestParam String fechaFin, @RequestParam String cliente){
+		return reporteService.obtenerReportexFechas(fechaInicio,fechaFin,cliente);
 	}
 }
