@@ -37,13 +37,13 @@ public class TblMovimientosService {
 			}
 			
 			if(Objects.isNull(body.getTblCuentas())) {
-				salida=util.salidaDatos(Boolean.FALSE, EnumMensajes.CAMPO_REQUERIDO.getDescripcion().replaceAll("{0}", "Cuentas").replaceAll("{1}", "Guardar"), null);
+				salida=util.salidaDatos(Boolean.FALSE, EnumMensajes.CAMPO_REQUERIDO.getDescripcion().replace("{0}", "Cuentas").replace("{1}", "Guardar"), null);
 				return salida;
 			}
 
 			Optional<TblCuentas> opCuentas=tblCuentasRepository.findByIdAndEstadoTrue(body.getTblCuentas().getId());
 			if(opCuentas.isPresent()) {
-				Optional<TblMovimientos> opMovimientoPrevio=tblMovimientosRepository.findFirstEstadoTrueAndTblCuentasOrderByIdDesc(opCuentas.get());
+				Optional<TblMovimientos> opMovimientoPrevio=tblMovimientosRepository.findFirstByEstadoTrueAndTblCuentasOrderByIdDesc(opCuentas.get());
 				if(opMovimientoPrevio.isPresent()) {
 					BigDecimal operacion=body.getValor().add(opMovimientoPrevio.get().getSaldo());
 					if(operacion.compareTo(BigDecimal.ZERO)<0) {
@@ -58,7 +58,7 @@ public class TblMovimientosService {
 					body.setTblCuentas(opCuentas.get());
 				}
 			}else{
-				salida=util.salidaDatos(Boolean.FALSE, EnumMensajes.ELEMENTO_INACTIVO.getDescripcion().replaceAll("{0}", "Cuentas"), null);
+				salida=util.salidaDatos(Boolean.FALSE, EnumMensajes.ELEMENTO_INACTIVO.getDescripcion().replace("{0}", "Cuentas"), null);
 				return salida;
 			}
 			
@@ -79,7 +79,7 @@ public class TblMovimientosService {
 		HashMap<String, Object> salida=new HashMap<>();
 		try {
 			if(Objects.isNull(id)) {
-				salida=util.salidaDatos(Boolean.FALSE, EnumMensajes.CAMPO_REQUERIDO.getDescripcion().replaceAll("{0}", "id").replaceAll("{1}", "obtener info"), null);
+				salida=util.salidaDatos(Boolean.FALSE, EnumMensajes.CAMPO_REQUERIDO.getDescripcion().replace("{0}", "id").replace("{1}", "obtener info"), null);
 				return salida;
 			}
 			Optional<TblMovimientos> clienteOpt =tblMovimientosRepository.findByIdAndEstadoTrue(id);
@@ -104,7 +104,7 @@ public class TblMovimientosService {
 	public TblMovimientos seteaDataUsuario(TblMovimientos regActual, TblMovimientos body) {
 		regActual.setFecha(body.getFecha());
 		regActual.setTipoMovimiento(body.getTipoMovimiento());
-		regActual.setValor(body.getValor());
+		//regActual.setValor(body.getValor());
 		regActual.setFechaModificacion(util.fechaActual());
 		regActual.setUsuarioModificacion(body.getUsuarioModificacion());
 
@@ -116,12 +116,12 @@ public class TblMovimientosService {
 		HashMap<String, Object> salida=new HashMap<>();
 		try {
 			if(Objects.isNull(body.getId())) {
-				salida=util.salidaDatos(Boolean.FALSE, EnumMensajes.CAMPO_REQUERIDO.getDescripcion().replaceAll("{0}", "id").replaceAll("{1}", "obtener info"), null);
+				salida=util.salidaDatos(Boolean.FALSE, EnumMensajes.CAMPO_REQUERIDO.getDescripcion().replace("{0}", "id").replace("{1}", "obtener info"), null);
 				return salida;
 			}
 			
 			if(Objects.isNull(body.getTblCuentas())) {
-				salida=util.salidaDatos(Boolean.FALSE, EnumMensajes.CAMPO_REQUERIDO.getDescripcion().replaceAll("{0}", "Cuentas").replaceAll("{1}", "Guardar"), null);
+				salida=util.salidaDatos(Boolean.FALSE, EnumMensajes.CAMPO_REQUERIDO.getDescripcion().replace("{0}", "Cuentas").replace("{1}", "Guardar"), null);
 				return salida;
 			}
 			
@@ -131,7 +131,7 @@ public class TblMovimientosService {
 				
 				Optional<TblCuentas> opCuentas=tblCuentasRepository.findByIdAndEstadoTrue(body.getTblCuentas().getId());
 				if(opCuentas.isPresent()) {
-					Optional<TblMovimientos> opMovimientoPrevio=tblMovimientosRepository.findFirstEstadoTrueAndTblCuentasOrderByIdDesc(opCuentas.get());
+					Optional<TblMovimientos> opMovimientoPrevio=tblMovimientosRepository.findFirstByEstadoTrueAndTblCuentasOrderByIdDesc(opCuentas.get());
 					if(opMovimientoPrevio.isPresent()) {
 						BigDecimal operacion=body.getValor().add(opMovimientoPrevio.get().getSaldo());
 						if(operacion.compareTo(BigDecimal.ZERO)<0) {
@@ -148,7 +148,7 @@ public class TblMovimientosService {
 					}
 					
 				}else{
-					salida=util.salidaDatos(Boolean.FALSE, EnumMensajes.ELEMENTO_INACTIVO.getDescripcion().replaceAll("{0}", "Cuentas"), null);
+					salida=util.salidaDatos(Boolean.FALSE, EnumMensajes.ELEMENTO_INACTIVO.getDescripcion().replace("{0}", "Cuentas"), null);
 					return salida;
 				}
 				
@@ -161,7 +161,7 @@ public class TblMovimientosService {
 					tblMovimientosRepository.save(seteaDataUsuario(userActual,body));
 					salida=util.salidaDatos(Boolean.TRUE, EnumMensajes.REGISTRO_MODIFICADO.getDescripcion(), null);
 				}else
-					salida=util.salidaDatos(Boolean.FALSE, EnumMensajes.ELEMENTO_INACTIVO.getDescripcion().replaceAll("{0}", body.getId().toString()), null);
+					salida=util.salidaDatos(Boolean.FALSE, EnumMensajes.ELEMENTO_INACTIVO.getDescripcion().replace("{0}", body.getId().toString()), null);
 
 			}else 
 		       salida = util.salidaDatos(
@@ -182,7 +182,7 @@ public class TblMovimientosService {
 		HashMap<String, Object> salida=new HashMap<>();
 		try {
 			if(Objects.isNull(id)) {
-				salida=util.salidaDatos(Boolean.FALSE, EnumMensajes.CAMPO_REQUERIDO.getDescripcion().replaceAll("{0}", "id").replaceAll("{1}", "eliminar el cliente"), null);
+				salida=util.salidaDatos(Boolean.FALSE, EnumMensajes.CAMPO_REQUERIDO.getDescripcion().replace("{0}", "id").replace("{1}", "eliminar el cliente"), null);
 				return salida;
 			}
 			
@@ -199,7 +199,7 @@ public class TblMovimientosService {
 				tblMovimientosRepository.delete(movActual);
 				salida=util.salidaDatos(Boolean.TRUE, EnumMensajes.REGISTRO_ELIMINADO.getDescripcion(), null);
 			}else{
-				salida=util.salidaDatos(Boolean.FALSE, EnumMensajes.ELEMENTO_INACTIVO.getDescripcion().replaceAll("{0}",id.toString()), null);
+				salida=util.salidaDatos(Boolean.FALSE, EnumMensajes.ELEMENTO_INACTIVO.getDescripcion().replace("{0}",id.toString()), null);
 			}
 		} catch (Exception e) {
 			salida= util.salidaDatos(Boolean.FALSE, e.getMessage(), null);

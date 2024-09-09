@@ -57,7 +57,7 @@ public class TblCuentasService {
 		HashMap<String, Object> salida=new HashMap<>();
 		try {
 			if(Objects.isNull(id)) {
-				salida=util.salidaDatos(Boolean.FALSE, EnumMensajes.CAMPO_REQUERIDO.getDescripcion().replaceAll("{0}", "id").replaceAll("{1}", "obtener info"), null);
+				salida=util.salidaDatos(Boolean.FALSE, EnumMensajes.CAMPO_REQUERIDO.getDescripcion().replace("{0}", "id").replace("{1}", "obtener info"), null);
 				return salida;
 			}
 			Optional<TblCuentas> clienteOpt =tblCuentasRepository.findByIdAndEstadoTrue(id);
@@ -81,7 +81,7 @@ public class TblCuentasService {
 	
 	public TblCuentas seteaDataUsuario(TblCuentas regActual, TblCuentas body) {
 		//regActual.setSaldoInicial(body.getSaldoInicial());
-		regActual.setTipo(body.getTipo());
+		//regActual.setTipo(body.getTipo());
 		regActual.setIdUsuario(body.getIdUsuario());
 		regActual.setNombreUsuario(body.getNombreUsuario());
 		regActual.setFechaModificacion(util.fechaActual());
@@ -95,7 +95,7 @@ public class TblCuentasService {
 		HashMap<String, Object> salida=new HashMap<>();
 		try {
 			if(Objects.isNull(body.getId())) {
-				salida=util.salidaDatos(Boolean.FALSE, EnumMensajes.CAMPO_REQUERIDO.getDescripcion().replaceAll("{0}", "id").replaceAll("{1}", "obtener info"), null);
+				salida=util.salidaDatos(Boolean.FALSE, EnumMensajes.CAMPO_REQUERIDO.getDescripcion().replace("{0}", "id").replace("{1}", "obtener info"), null);
 				return salida;
 			}
 			Optional<TblCuentas> clienteOpt =tblCuentasRepository.findById(body.getId());
@@ -108,7 +108,7 @@ public class TblCuentasService {
 					tblCuentasRepository.save(seteaDataUsuario(userActual,body));
 					salida=util.salidaDatos(Boolean.TRUE, EnumMensajes.REGISTRO_MODIFICADO.getDescripcion(), null);
 				}else
-					salida=util.salidaDatos(Boolean.FALSE, EnumMensajes.ELEMENTO_INACTIVO.getDescripcion().replaceAll("{0}", body.getId().toString()), null);
+					salida=util.salidaDatos(Boolean.FALSE, EnumMensajes.ELEMENTO_INACTIVO.getDescripcion().replace("{0}", body.getId().toString()), null);
 
 			}else 
 		       salida = util.salidaDatos(
@@ -129,7 +129,7 @@ public class TblCuentasService {
 		HashMap<String, Object> salida=new HashMap<>();
 		try {
 			if(Objects.isNull(id)) {
-				salida=util.salidaDatos(Boolean.FALSE, EnumMensajes.CAMPO_REQUERIDO.getDescripcion().replaceAll("{0}", "id").replaceAll("{1}", "eliminar el cliente"), null);
+				salida=util.salidaDatos(Boolean.FALSE, EnumMensajes.CAMPO_REQUERIDO.getDescripcion().replace("{0}", "id").replace("{1}", "eliminar el cliente"), null);
 				return salida;
 			}
 			
@@ -138,7 +138,7 @@ public class TblCuentasService {
 				tblCuentasRepository.delete(clienteOpt.get());
 				salida=util.salidaDatos(Boolean.TRUE, EnumMensajes.REGISTRO_ELIMINADO.getDescripcion(), null);
 			}else{
-				salida=util.salidaDatos(Boolean.FALSE, EnumMensajes.ELEMENTO_INACTIVO.getDescripcion().replaceAll("{0}",id.toString()), null);
+				salida=util.salidaDatos(Boolean.FALSE, EnumMensajes.ELEMENTO_INACTIVO.getDescripcion().replace("{0}",id.toString()), null);
 			}
 		} catch (Exception e) {
 			salida= util.salidaDatos(Boolean.FALSE, e.getMessage(), null);

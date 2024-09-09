@@ -4,6 +4,8 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.tcs.entity.TblCuentas;
@@ -16,7 +18,8 @@ public interface TblMovimientosRepository extends JpaRepository<TblMovimientos,L
 	
 	Optional<TblMovimientos> findByIdAndEstadoTrue(Long id);
 	
-	Optional<TblMovimientos> findFirstEstadoTrueAndTblCuentasOrderByIdDesc(TblCuentas tblCuentas);
+	Optional<TblMovimientos> findFirstByEstadoTrueAndTblCuentasOrderByIdDesc(TblCuentas tblCuentas);
 	
-	List<TblMovimientos> findByEstadoTrueAndLowerTblCuentas_NombreUsuarioAndFechaBetween(String nombreUsuario, String fechaIni, String fechaFin);
+	@Query("SELECT m FROM TblMovimientos m WHERE m.estado = true AND LOWER(m.tblCuentas.nombreUsuario) = LOWER(:nombreUsuario) AND m.fecha BETWEEN :fechaIni AND :fechaFin")
+	List<TblMovimientos> findByNombreUsuarioAndFechas(@Param("nombreUsuario") String nombreUsuario, @Param("fechaIni") String fechaIni, @Param("fechaFin") String fechaFin);
 }
